@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Ekaa</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+      transition: background 0.3s ease;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #color-switcher {
+      margin-bottom: 15px;
+    }
+
+    .color-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    #calculator {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      max-width: 350px;
+      width: 100%;
+    }
+
+    #display {
+      width: 100%;
+      height: 60px;
+      font-size: 24px;
+      text-align: right;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .history {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #333;
+      background: #eee;
+      padding: 10px;
+      border-radius: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kalkulator Ekaa</h1>
+
+  <div id="color-switcher">
+    <button class="color-btn" style="background:red" onclick="changeBg('red')">🔴</button>
+    <button class="color-btn" style="background:orange" onclick="changeBg('orange')">🟠</button>
+    <button class="color-btn" style="background:gold" onclick="changeBg('gold')">🟡</button>
+    <button class="color-btn" style="background:green" onclick="changeBg('green')">🟢</button>
+    <button class="color-btn" style="background:blue" onclick="changeBg('blue')">🔵</button>
+    <button class="color-btn" style="background:purple" onclick="changeBg('purple')">🟣</button>
+  </div>
+
+  <div id="calculator">
+    <input type="text" id="display" readonly />
+    <div class="buttons">
+      <button onclick="clearDisplay()" style="background:tomato">C</button>
+      <button onclick="append('/')" style="background:#ff80ab">÷</button>
+      <button onclick="append('*')" style="background:#ea80fc">×</button>
+      <button onclick="deleteLast()" style="background:#90a4ae">←</button>
+
+      <button onclick="append('7')" style="background:#ffb74d">7</button>
+      <button onclick="append('8')" style="background:#90a4ae">8</button>
+      <button onclick="append('9')" style="background:#4fc3f7">9</button>
+      <button onclick="append('-')" style="background:#f48fb1">−</button>
+
+      <button onclick="append('4')" style="background:#f48fb1">4</button>
+      <button onclick="append('5')" style="background:#4dd0e1">5</button>
+      <button onclick="append('6')" style="background:#ce93d8">6</button>
+      <button onclick="append('+')" style="background:#81d4fa">+</button>
+
+      <button onclick="append('1')" style="background:#ffd54f">1</button>
+      <button onclick="append('2')" style="background:#4fc3f7">2</button>
+      <button onclick="append('3')" style="background:#4db6ac">3</button>
+      <button onclick="calculate()" style="background:#66bb6a">=</button>
+
+      <button onclick="append('0')" style="background:#ef9a9a">0</button>
+      <button onclick="append('.')" style="background:#b0bec5">.</button>
+    </div>
+
+    <div class="history" id="history"></div>
+  </div>
+
+  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+  <script>
+    const display = document.getElementById('display');
+    const history = document.getElementById('history');
+    const clickSound = document.getElementById('clickSound');
+
+    function playSound() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+
+    function append(value) {
+      playSound();
+      display.value += value;
+    }
+
+    function clearDisplay() {
+      playSound();
+      display.value = '';
+    }
+
+    function deleteLast() {
+      playSound();
+      display.value = display.value.slice(0, -1);
+    }
+
+    function calculate() {
+      playSound();
+      try {
+        const result = eval(display.value);
+        history.innerHTML += `${display.value} = ${result}<br>`;
+        display.value = result;
+      } catch {
+        display.value = 'Error';
+      }
+    }
+
+    function changeBg(color) {
+      document.body.style.background = color;
+    }
+  </script>
+</body>
+  </html>
