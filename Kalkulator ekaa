@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EKAA's Magical Calc ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Fredoka One', cursive;
+      background: linear-gradient(to right, #fceabb, #f8b500);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background: #fff8f0;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      width: 320px;
+      text-align: center;
+      border: 5px solid #f9c46b;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #ff6f61;
+      font-size: 26px;
+    }
+
+    .display {
+      width: 100%;
+      height: 60px;
+      font-size: 28px;
+      text-align: right;
+      padding: 10px;
+      border-radius: 12px;
+      background: #fff;
+      border: 2px solid #ffb74d;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      padding: 16px;
+      font-size: 20px;
+      border: none;
+      border-radius: 15px;
+      background-color: #c2fbd7;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      background-color: #a5f3c0;
+      transform: scale(1.05);
+    }
+
+    .operator {
+      background-color: #ffd6a5;
+    }
+
+    .clear {
+      background-color: #ffadad;
+      color: white;
+    }
+
+    .equal {
+      background-color: #bdb2ff;
+      color: white;
+      grid-column: span 2;
+      border-radius: 20px;
+      font-size: 24px;
+    }
+
+    .shake {
+      animation: shake 0.4s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>EKAA's Magical Calc ✨</h2>
+    <input type="text" id="display" class="display" disabled>
+    <div class="buttons">
+      <button class="clear" onclick="playClick(); clearDisplay()">C</button>
+      <button class="operator" onclick="playClick(); append('/')">÷</button>
+      <button class="operator" onclick="playClick(); append('*')">×</button>
+      <button class="operator" onclick="playClick(); append('-')">−</button>
+
+      <button onclick="playClick(); append('7')">7</button>
+      <button onclick="playClick(); append('8')">8</button>
+      <button onclick="playClick(); append('9')">9</button>
+      <button class="operator" onclick="playClick(); append('+')">+</button>
+
+      <button onclick="playClick(); append('4')">4</button>
+      <button onclick="playClick(); append('5')">5</button>
+      <button onclick="playClick(); append('6')">6</button>
+      <button onclick="playClick(); append('.')">.</button>
+
+      <button onclick="playClick(); append('1')">1</button>
+      <button onclick="playClick(); append('2')">2</button>
+      <button onclick="playClick(); append('3')">3</button>
+      <button onclick="playClick(); append('0')">0</button>
+
+      <button class="equal" onclick="playClick(); calculate()">💚 = 💚</button>
+    </div>
+  </div>
+
+  <!-- Suara klik -->
+  <audio id="clickSound">
+    <source src="https://www.myinstants.com/media/sounds/button-3.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    function append(val) {
+      document.getElementById("display").value += val;
+    }
+
+    function clearDisplay() {
+      document.getElementById("display").value = '';
+    }
+
+    function calculate() {
+      const display = document.getElementById("display");
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = 'Error 😵';
+        display.classList.add('shake');
+        setTimeout(() => display.classList.remove('shake'), 400);
+      }
+    }
+
+    function playClick() {
+      const sound = document.getElementById("clickSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+  </script>
+</body>
+</html>
